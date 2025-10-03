@@ -11,7 +11,7 @@ const doc = {
     },
   },
   host: process.env.RENDER_URL || "localhost:3000",
-  schemes: ["http", "https"],
+  schemes: ["https", "http"],
   tags: [
     {
       name: "Server",
