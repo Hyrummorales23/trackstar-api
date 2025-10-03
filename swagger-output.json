@@ -9,7 +9,7 @@
       "email": "support@trackstar.com"
     }
   },
-  "host": "localhost:3000",
+  "host": "trackstar-api.onrender.com",
   "basePath": "/",
   "tags": [
     {
@@ -33,16 +33,11 @@
       "description": "Habit logging and tracking operations - Record and analyze habit completions"
     }
   ],
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "schemes": ["http", "https"],
   "paths": {
     "/": {
       "get": {
-        "tags": [
-          "Server"
-        ],
+        "tags": ["Server"],
         "summary": "Get server status and information",
         "description": "Returns general information about the TrackStar API server including version, status, and available endpoints.",
         "responses": {
@@ -54,9 +49,7 @@
     },
     "/api/": {
       "get": {
-        "tags": [
-          "Server"
-        ],
+        "tags": ["Server"],
         "summary": "Get API information and available endpoints",
         "description": "Returns detailed information about the TrackStar API including all available endpoints and their purposes.",
         "responses": {
@@ -68,9 +61,7 @@
     },
     "/api/health": {
       "get": {
-        "tags": [
-          "Server"
-        ],
+        "tags": ["Server"],
         "summary": "Health check endpoint",
         "description": "Returns server health status including uptime, memory usage, and Node.js version.",
         "responses": {
@@ -82,9 +73,7 @@
     },
     "/api/tasks/": {
       "get": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Get all tasks for the current user",
         "description": "Retrieve all tasks belonging to the authenticated user, sorted by creation date.",
         "parameters": [
@@ -106,9 +95,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Create a new task",
         "description": "Create a new task for the authenticated user.",
         "parameters": [
@@ -166,9 +153,7 @@
     },
     "/api/tasks/{id}": {
       "get": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Get a specific task by ID",
         "description": "Retrieve details of a specific task by its ID.",
         "parameters": [
@@ -200,9 +185,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Update an existing task",
         "description": "Update details of an existing task by its ID.",
         "parameters": [
@@ -264,9 +247,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Tasks"
-        ],
+        "tags": ["Tasks"],
         "summary": "Delete a task",
         "description": "Delete a specific task by its ID.",
         "parameters": [
@@ -300,9 +281,7 @@
     },
     "/api/habits/": {
       "get": {
-        "tags": [
-          "Habits"
-        ],
+        "tags": ["Habits"],
         "summary": "Get all habits for the current user",
         "description": "Retrieve all habits belonging to the authenticated user.",
         "parameters": [
@@ -324,9 +303,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Habits"
-        ],
+        "tags": ["Habits"],
         "summary": "Create a new habit",
         "description": "Create a new habit for the authenticated user.",
         "parameters": [
@@ -384,9 +361,7 @@
     },
     "/api/habits/{id}": {
       "get": {
-        "tags": [
-          "Habits"
-        ],
+        "tags": ["Habits"],
         "summary": "Get a specific habit by ID",
         "description": "Retrieve details of a specific habit by its ID.",
         "parameters": [
@@ -418,9 +393,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Habits"
-        ],
+        "tags": ["Habits"],
         "summary": "Update an existing habit",
         "description": "Update details of an existing habit by its ID.",
         "parameters": [
@@ -482,9 +455,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Habits"
-        ],
+        "tags": ["Habits"],
         "summary": "Delete a habit",
         "description": "Delete a specific habit by its ID.",
         "parameters": [
@@ -518,9 +489,7 @@
     },
     "/api/users/": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Get current user profile",
         "description": "Retrieve the profile information of the currently authenticated user.",
         "parameters": [
@@ -548,9 +517,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Update current user profile",
         "description": "Update the profile information of the currently authenticated user.",
         "parameters": [
@@ -604,9 +571,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Delete/deactivate user account",
         "description": "Deactivate the current user account. This is a soft delete operation.",
         "parameters": [
@@ -636,9 +601,7 @@
     },
     "/api/users/register": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Register new user (OAuth callback)",
         "description": "Create a new user account or login existing user via OAuth provider.",
         "parameters": [
@@ -696,9 +659,7 @@
     },
     "/api/habit-logs/": {
       "get": {
-        "tags": [
-          "Habit Logs"
-        ],
+        "tags": ["Habit Logs"],
         "summary": "Get all habit logs for current user",
         "description": "Retrieve all habit completion logs for the authenticated user with optional filtering.",
         "parameters": [
@@ -751,9 +712,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Habit Logs"
-        ],
+        "tags": ["Habit Logs"],
         "summary": "Log a habit completion",
         "description": "Record a completion of a habit for the current user.",
         "parameters": [
@@ -821,9 +780,7 @@
     },
     "/api/habit-logs/{id}": {
       "get": {
-        "tags": [
-          "Habit Logs"
-        ],
+        "tags": ["Habit Logs"],
         "summary": "Get a specific habit log by ID",
         "description": "Retrieve details of a specific habit completion log by its ID.",
         "parameters": [
@@ -858,9 +815,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Habit Logs"
-        ],
+        "tags": ["Habit Logs"],
         "summary": "Update a habit log",
         "description": "Update details of an existing habit completion log.",
         "parameters": [
@@ -925,9 +880,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Habit Logs"
-        ],
+        "tags": ["Habit Logs"],
         "summary": "Delete a habit log",
         "description": "Delete a specific habit completion log by its ID.",
         "parameters": [
@@ -964,9 +917,7 @@
     },
     "/api/habit-logs/stats/{habitId}": {
       "get": {
-        "tags": [
-          "Habit Logs"
-        ],
+        "tags": ["Habit Logs"],
         "summary": "Get statistics for a specific habit",
         "description": "Retrieve comprehensive statistics and analytics for a specific habit including completion rates, streaks, and performance metrics.",
         "parameters": [
