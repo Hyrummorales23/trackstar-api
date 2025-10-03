@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
   getAllTasks,
   getTaskById,
   createTask,
   updateTask,
-  deleteTask
-} = require('../controllers/taskController');
+  deleteTask,
+} = require("../controllers/taskController");
 
 /**
  * @swagger
@@ -71,7 +71,20 @@ const {
  *                   items:
  *                     $ref: '#/components/schemas/Task'
  */
-router.get('/', getAllTasks);
+router.get("/", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Get all tasks for the current user'
+    #swagger.description = 'Retrieve all tasks belonging to the authenticated user, sorted by creation date.'
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+  */
+  getAllTasks(req, res);
+});
 
 /**
  * @swagger
@@ -96,7 +109,26 @@ router.get('/', getAllTasks);
  *       404:
  *         description: Task not found
  */
-router.get('/:id', getTaskById);
+router.get("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Get a specific task by ID'
+    #swagger.description = 'Retrieve details of a specific task by its ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Task ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+  */
+  getTaskById(req, res);
+});
 
 /**
  * @swagger
@@ -135,7 +167,32 @@ router.get('/:id', getTaskById);
  *       400:
  *         description: Validation error
  */
-router.post('/', createTask);
+router.post("/", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Create a new task'
+    #swagger.description = 'Create a new task for the authenticated user.'
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Task information',
+      required: true,
+      schema: {
+        title: 'Learn Node.js',
+        description: 'Complete Node.js tutorial',
+        priority: 'high',
+        dueDate: '2024-12-31',
+        category: 'learning'
+      }
+    }
+  */
+  createTask(req, res);
+});
 
 /**
  * @swagger
@@ -179,7 +236,37 @@ router.post('/', createTask);
  *       400:
  *         description: Validation error
  */
-router.put('/:id', updateTask);
+router.put("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Update an existing task'
+    #swagger.description = 'Update details of an existing task by its ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Task ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Updated task information',
+      required: true,
+      schema: {
+        title: 'Updated task title',
+        description: 'Updated description',
+        priority: 'medium',
+        isCompleted: true
+      }
+    }
+  */
+  updateTask(req, res);
+});
 
 /**
  * @swagger
@@ -200,6 +287,25 @@ router.put('/:id', updateTask);
  *       404:
  *         description: Task not found
  */
-router.delete('/:id', deleteTask);
+router.delete("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Delete a task'
+    #swagger.description = 'Delete a specific task by its ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Task ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+  */
+  deleteTask(req, res);
+});
 
 module.exports = router;

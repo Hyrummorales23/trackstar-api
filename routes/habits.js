@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
   getAllHabits,
   getHabitById,
   createHabit,
   updateHabit,
-  deleteHabit
-} = require('../controllers/habitController');
+  deleteHabit,
+} = require("../controllers/habitController");
 
 /**
  * @swagger
@@ -70,7 +70,20 @@ const {
  *                   items:
  *                     $ref: '#/components/schemas/Habit'
  */
-router.get('/', getAllHabits);
+router.get("/", (req, res) => {
+  /*  
+    #swagger.tags = ['Habits']
+    #swagger.summary = 'Get all habits for the current user'
+    #swagger.description = 'Retrieve all habits belonging to the authenticated user.'
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+  */
+  getAllHabits(req, res);
+});
 
 /**
  * @swagger
@@ -95,7 +108,26 @@ router.get('/', getAllHabits);
  *       404:
  *         description: Habit not found
  */
-router.get('/:id', getHabitById);
+router.get("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Habits']
+    #swagger.summary = 'Get a specific habit by ID'
+    #swagger.description = 'Retrieve details of a specific habit by its ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Habit ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+  */
+  getHabitById(req, res);
+});
 
 /**
  * @swagger
@@ -133,7 +165,32 @@ router.get('/:id', getHabitById);
  *       400:
  *         description: Validation error
  */
-router.post('/', createHabit);
+router.post("/", (req, res) => {
+  /*  
+    #swagger.tags = ['Habits']
+    #swagger.summary = 'Create a new habit'
+    #swagger.description = 'Create a new habit for the authenticated user.'
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Habit information',
+      required: true,
+      schema: {
+        name: 'Daily Exercise',
+        description: 'Do 30 minutes of exercise daily',
+        frequency: 'daily',
+        targetCount: 1,
+        category: 'health'
+      }
+    }
+  */
+  createHabit(req, res);
+});
 
 /**
  * @swagger
@@ -176,7 +233,37 @@ router.post('/', createHabit);
  *       400:
  *         description: Validation error
  */
-router.put('/:id', updateHabit);
+router.put("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Habits']
+    #swagger.summary = 'Update an existing habit'
+    #swagger.description = 'Update details of an existing habit by its ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Habit ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Updated habit information',
+      required: true,
+      schema: {
+        name: 'Updated habit name',
+        description: 'Updated description',
+        frequency: 'weekly',
+        isActive: false
+      }
+    }
+  */
+  updateHabit(req, res);
+});
 
 /**
  * @swagger
@@ -197,6 +284,25 @@ router.put('/:id', updateHabit);
  *       404:
  *         description: Habit not found
  */
-router.delete('/:id', deleteHabit);
+router.delete("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Habits']
+    #swagger.summary = 'Delete a habit'
+    #swagger.description = 'Delete a specific habit by its ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Habit ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['x-user-id'] = {
+      in: 'header',
+      description: 'User ID for authentication',
+      required: false,
+      type: 'string'
+    }
+  */
+  deleteHabit(req, res);
+});
 
 module.exports = router;

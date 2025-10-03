@@ -1,0 +1,1022 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TrackStar API",
+    "description": "Personal Task & Habit Tracker API",
+    "version": "1.0.0",
+    "contact": {
+      "name": "TrackStar Team",
+      "email": "support@trackstar.com"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Server",
+      "description": "Server status and general information endpoints"
+    },
+    {
+      "name": "Tasks",
+      "description": "Task management operations - Create, read, update and delete personal tasks"
+    },
+    {
+      "name": "Habits",
+      "description": "Habit management operations - Manage personal habits and tracking"
+    },
+    {
+      "name": "Users",
+      "description": "User management operations - Profile and account management"
+    },
+    {
+      "name": "Habit Logs",
+      "description": "Habit logging and tracking operations - Record and analyze habit completions"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Server"
+        ],
+        "summary": "Get server status and information",
+        "description": "Returns general information about the TrackStar API server including version, status, and available endpoints.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/": {
+      "get": {
+        "tags": [
+          "Server"
+        ],
+        "summary": "Get API information and available endpoints",
+        "description": "Returns detailed information about the TrackStar API including all available endpoints and their purposes.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "tags": [
+          "Server"
+        ],
+        "summary": "Health check endpoint",
+        "description": "Returns server health status including uptime, memory usage, and Node.js version.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/tasks/": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Get all tasks for the current user",
+        "description": "Retrieve all tasks belonging to the authenticated user, sorted by creation date.",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Create a new task",
+        "description": "Create a new task for the authenticated user.",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Task information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Learn Node.js"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Complete Node.js tutorial"
+                },
+                "priority": {
+                  "type": "string",
+                  "example": "high"
+                },
+                "dueDate": {
+                  "type": "string",
+                  "example": "2024-12-31"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "learning"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Get a specific task by ID",
+        "description": "Retrieve details of a specific task by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Task ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Update an existing task",
+        "description": "Update details of an existing task by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Task ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated task information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Updated task title"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Updated description"
+                },
+                "priority": {
+                  "type": "string",
+                  "example": "medium"
+                },
+                "isCompleted": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Delete a task",
+        "description": "Delete a specific task by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Task ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/habits/": {
+      "get": {
+        "tags": [
+          "Habits"
+        ],
+        "summary": "Get all habits for the current user",
+        "description": "Retrieve all habits belonging to the authenticated user.",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Habits"
+        ],
+        "summary": "Create a new habit",
+        "description": "Create a new habit for the authenticated user.",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Habit information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Daily Exercise"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Do 30 minutes of exercise daily"
+                },
+                "frequency": {
+                  "type": "string",
+                  "example": "daily"
+                },
+                "targetCount": {
+                  "type": "number",
+                  "example": 1
+                },
+                "category": {
+                  "type": "string",
+                  "example": "health"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/habits/{id}": {
+      "get": {
+        "tags": [
+          "Habits"
+        ],
+        "summary": "Get a specific habit by ID",
+        "description": "Retrieve details of a specific habit by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Habit ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Habits"
+        ],
+        "summary": "Update an existing habit",
+        "description": "Update details of an existing habit by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Habit ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated habit information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Updated habit name"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Updated description"
+                },
+                "frequency": {
+                  "type": "string",
+                  "example": "weekly"
+                },
+                "isActive": {
+                  "type": "boolean",
+                  "example": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Habits"
+        ],
+        "summary": "Delete a habit",
+        "description": "Delete a specific habit by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Habit ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get current user profile",
+        "description": "Retrieve the profile information of the currently authenticated user.",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update current user profile",
+        "description": "Update the profile information of the currently authenticated user.",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated user information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "John Doe"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe"
+                },
+                "timezone": {
+                  "type": "string",
+                  "example": "America/New_York"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete/deactivate user account",
+        "description": "Deactivate the current user account. This is a soft delete operation.",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/register": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Register new user (OAuth callback)",
+        "description": "Create a new user account or login existing user via OAuth provider.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User registration information from OAuth provider",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "providerId": {
+                  "type": "string",
+                  "example": "12345"
+                },
+                "provider": {
+                  "type": "string",
+                  "example": "github"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "John Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "john@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe"
+                },
+                "avatar": {
+                  "type": "string",
+                  "example": "https://avatar.url.com/john.jpg"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/habit-logs/": {
+      "get": {
+        "tags": [
+          "Habit Logs"
+        ],
+        "summary": "Get all habit logs for current user",
+        "description": "Retrieve all habit completion logs for the authenticated user with optional filtering.",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "habitId",
+            "in": "query",
+            "description": "Filter by specific habit ID",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Filter logs from this date",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Filter logs until this date",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of logs to return",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Habit Logs"
+        ],
+        "summary": "Log a habit completion",
+        "description": "Record a completion of a habit for the current user.",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Habit completion information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "habitId": {
+                  "type": "string",
+                  "example": "64a7b8c9d1234567890abcde"
+                },
+                "completedDate": {
+                  "type": "string",
+                  "example": "2024-01-15"
+                },
+                "completionCount": {
+                  "type": "number",
+                  "example": 1
+                },
+                "notes": {
+                  "type": "string",
+                  "example": "Completed morning workout"
+                },
+                "mood": {
+                  "type": "string",
+                  "example": "good"
+                },
+                "difficulty": {
+                  "type": "number",
+                  "example": 3
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/habit-logs/{id}": {
+      "get": {
+        "tags": [
+          "Habit Logs"
+        ],
+        "summary": "Get a specific habit log by ID",
+        "description": "Retrieve details of a specific habit completion log by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Habit Log ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Habit Logs"
+        ],
+        "summary": "Update a habit log",
+        "description": "Update details of an existing habit completion log.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Habit Log ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated habit log information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "completionCount": {
+                  "type": "number",
+                  "example": 2
+                },
+                "notes": {
+                  "type": "string",
+                  "example": "Updated notes"
+                },
+                "mood": {
+                  "type": "string",
+                  "example": "excellent"
+                },
+                "difficulty": {
+                  "type": "number",
+                  "example": 2
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Habit Logs"
+        ],
+        "summary": "Delete a habit log",
+        "description": "Delete a specific habit completion log by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Habit Log ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/habit-logs/stats/{habitId}": {
+      "get": {
+        "tags": [
+          "Habit Logs"
+        ],
+        "summary": "Get statistics for a specific habit",
+        "description": "Retrieve comprehensive statistics and analytics for a specific habit including completion rates, streaks, and performance metrics.",
+        "parameters": [
+          {
+            "name": "habitId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Habit ID"
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "description": "User ID for authentication",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "description": "Number of days to analyze",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-user-id",
+        "description": "User ID for authentication (temporary for testing)"
+      }
+    }
+  }
+}
