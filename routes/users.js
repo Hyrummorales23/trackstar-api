@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
   getAllUsers,
   getUserById,
   createUser,
   updateUser,
-  deleteUser
-} = require('../controllers/userController');
+  deleteUser,
+} = require("../controllers/userController");
 
 /**
  * @swagger
@@ -82,7 +82,14 @@ const {
  *                   items:
  *                     $ref: '#/components/schemas/User'
  */
-router.get('/', getAllUsers);
+router.get("/", (req, res) => {
+  /*  
+    #swagger.tags = ['Users']
+    #swagger.summary = 'Get all users'
+    #swagger.description = 'Retrieve all users in the system.'
+  */
+  getAllUsers(req, res);
+});
 
 /**
  * @swagger
@@ -107,7 +114,20 @@ router.get('/', getAllUsers);
  *       404:
  *         description: User not found
  */
-router.get('/:id', getUserById);
+router.get("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Users']
+    #swagger.summary = 'Get a specific user by ID'
+    #swagger.description = 'Retrieve details of a specific user by their ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'User ID',
+      required: true,
+      type: 'string'
+    }
+  */
+  getUserById(req, res);
+});
 
 /**
  * @swagger
@@ -152,7 +172,28 @@ router.get('/:id', getUserById);
  *       400:
  *         description: Validation error or duplicate user
  */
-router.post('/', createUser);
+router.post("/", (req, res) => {
+  /*  
+    #swagger.tags = ['Users']
+    #swagger.summary = 'Create a new user'
+    #swagger.description = 'Create a new user account in the system.'
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'User information',
+      required: true,
+      schema: {
+        providerId: 'github_123456789',
+        provider: 'github',
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        username: 'johndoe',
+        avatar: 'https://example.com/avatar.jpg',
+        timezone: 'UTC-5'
+      }
+    }
+  */
+  createUser(req, res);
+});
 
 /**
  * @swagger
@@ -194,7 +235,32 @@ router.post('/', createUser);
  *       400:
  *         description: Validation error
  */
-router.put('/:id', updateUser);
+router.put("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Users']
+    #swagger.summary = 'Update an existing user'
+    #swagger.description = 'Update details of an existing user by their ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'User ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Updated user information',
+      required: true,
+      schema: {
+        name: 'Updated Name',
+        email: 'updated@example.com',
+        username: 'updatedusername',
+        timezone: 'UTC-8',
+        isActive: true
+      }
+    }
+  */
+  updateUser(req, res);
+});
 
 /**
  * @swagger
@@ -215,6 +281,19 @@ router.put('/:id', updateUser);
  *       404:
  *         description: User not found
  */
-router.delete('/:id', deleteUser);
+router.delete("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Users']
+    #swagger.summary = 'Delete a user'
+    #swagger.description = 'Delete a specific user by their ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'User ID',
+      required: true,
+      type: 'string'
+    }
+  */
+  deleteUser(req, res);
+});
 
 module.exports = router;

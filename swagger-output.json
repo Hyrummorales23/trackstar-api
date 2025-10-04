@@ -34,8 +34,8 @@
     }
   ],
   "schemes": [
-    "https",
-    "http"
+    "http",
+    "https"
   ],
   "paths": {
     "/": {
@@ -82,7 +82,11 @@
     },
     "/api/tasks/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Get all tasks",
+        "description": "Retrieve all tasks in the system.",
         "responses": {
           "200": {
             "description": "OK"
@@ -93,16 +97,39 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Create a new task",
+        "description": "Create a new task in the system.",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "description": "Task information",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "title": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Complete project documentation"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Write comprehensive documentation for the TrackStar API"
+                },
+                "dueDate": {
+                  "type": "string",
+                  "example": "2024-12-31"
+                },
+                "priority": {
+                  "type": "string",
+                  "example": "high"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "work"
                 }
               }
             }
@@ -123,13 +150,18 @@
     },
     "/api/tasks/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Get a specific task by ID",
+        "description": "Retrieve details of a specific task by its ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Task ID"
           }
         ],
         "responses": {
@@ -145,13 +177,49 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Update an existing task",
+        "description": "Update details of an existing task by its ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Task ID"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated task information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Updated task title"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Updated description"
+                },
+                "priority": {
+                  "type": "string",
+                  "example": "medium"
+                },
+                "isCompleted": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "category": {
+                  "type": "string",
+                  "example": "personal"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -170,13 +238,18 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Delete a task",
+        "description": "Delete a specific task by its ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Task ID"
           }
         ],
         "responses": {
@@ -412,7 +485,11 @@
     },
     "/api/users/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users",
+        "description": "Retrieve all users in the system.",
         "responses": {
           "200": {
             "description": "OK"
@@ -423,25 +500,47 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a new user",
+        "description": "Create a new user account in the system.",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "description": "User information",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "providerId": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "github_123456789"
                 },
                 "provider": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "github"
                 },
                 "name": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "John Doe"
                 },
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "john.doe@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe"
+                },
+                "avatar": {
+                  "type": "string",
+                  "example": "https://example.com/avatar.jpg"
+                },
+                "timezone": {
+                  "type": "string",
+                  "example": "UTC-5"
                 }
               }
             }
@@ -462,13 +561,18 @@
     },
     "/api/users/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get a specific user by ID",
+        "description": "Retrieve details of a specific user by their ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "User ID"
           }
         ],
         "responses": {
@@ -484,13 +588,49 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update an existing user",
+        "description": "Update details of an existing user by their ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "User ID"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated user information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Updated Name"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "updated@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "updatedusername"
+                },
+                "timezone": {
+                  "type": "string",
+                  "example": "UTC-8"
+                },
+                "isActive": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -509,13 +649,18 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete a user",
+        "description": "Delete a specific user by their ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "User ID"
           }
         ],
         "responses": {

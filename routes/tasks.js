@@ -50,7 +50,7 @@ const {
 
 /**
  * @swagger
- * /api/tasks:
+ * /tasks:
  *   get:
  *     summary: Get all tasks
  *     tags: [Tasks]
@@ -71,11 +71,18 @@ const {
  *                   items:
  *                     $ref: '#/components/schemas/Task'
  */
-router.get("/", getAllTasks);
+router.get("/", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Get all tasks'
+    #swagger.description = 'Retrieve all tasks in the system.'
+  */
+  getAllTasks(req, res);
+});
 
 /**
  * @swagger
- * /api/tasks/{id}:
+ * /tasks/{id}:
  *   get:
  *     summary: Get a task by ID
  *     tags: [Tasks]
@@ -96,11 +103,24 @@ router.get("/", getAllTasks);
  *       404:
  *         description: Task not found
  */
-router.get("/:id", getTaskById); // FIXED: was "/.id"
+router.get("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Get a specific task by ID'
+    #swagger.description = 'Retrieve details of a specific task by its ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Task ID',
+      required: true,
+      type: 'string'
+    }
+  */
+  getTaskById(req, res);
+});
 
 /**
  * @swagger
- * /api/tasks:
+ * /tasks:
  *   post:
  *     summary: Create a new task
  *     tags: [Tasks]
@@ -135,11 +155,30 @@ router.get("/:id", getTaskById); // FIXED: was "/.id"
  *       400:
  *         description: Validation error
  */
-router.post("/", createTask);
+router.post("/", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Create a new task'
+    #swagger.description = 'Create a new task in the system.'
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Task information',
+      required: true,
+      schema: {
+        title: 'Complete project documentation',
+        description: 'Write comprehensive documentation for the TrackStar API',
+        dueDate: '2024-12-31',
+        priority: 'high',
+        category: 'work'
+      }
+    }
+  */
+  createTask(req, res);
+});
 
 /**
  * @swagger
- * /api/tasks/{id}:
+ * /tasks/{id}:
  *   put:
  *     summary: Update a task
  *     tags: [Tasks]
@@ -179,11 +218,36 @@ router.post("/", createTask);
  *       400:
  *         description: Validation error
  */
-router.put("/:id", updateTask);
+router.put("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Update an existing task'
+    #swagger.description = 'Update details of an existing task by its ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Task ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Updated task information',
+      required: true,
+      schema: {
+        title: 'Updated task title',
+        description: 'Updated description',
+        priority: 'medium',
+        isCompleted: true,
+        category: 'personal'
+      }
+    }
+  */
+  updateTask(req, res);
+});
 
 /**
  * @swagger
- * /api/tasks/{id}:
+ * /tasks/{id}:
  *   delete:
  *     summary: Delete a task
  *     tags: [Tasks]
@@ -200,6 +264,19 @@ router.put("/:id", updateTask);
  *       404:
  *         description: Task not found
  */
-router.delete("/:id", deleteTask);
+router.delete("/:id", (req, res) => {
+  /*  
+    #swagger.tags = ['Tasks']
+    #swagger.summary = 'Delete a task'
+    #swagger.description = 'Delete a specific task by its ID.'
+    #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Task ID',
+      required: true,
+      type: 'string'
+    }
+  */
+  deleteTask(req, res);
+});
 
 module.exports = router;
