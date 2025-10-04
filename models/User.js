@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   oauthId: {
     type: String,
     required: [true, "OauthId is required"],
-    //unique: true,
+    unique: true,
   },
   provider: {
     type: String,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
-    //unique: true,
+    unique: true,
     lowercase: true,
     match: [
       /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
