@@ -46,10 +46,10 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     // Basic validation
-    if (!req.body.providerId || !req.body.provider || !req.body.name || !req.body.email) {
+    if (!req.body.oauthId || !req.body.provider || !req.body.name || !req.body.email) {
       return res.status(400).json({
         success: false,
-        error: "providerId, provider, name, and email are required"
+        error: "oauthId, provider, name, and email are required"
       });
     }
 
