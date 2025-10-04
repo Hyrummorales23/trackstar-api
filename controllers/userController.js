@@ -4,7 +4,7 @@ const User = require("../models/User");
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().sort({ createdAt: -1 });
-    
+
     res.json({
       success: true,
       count: users.length,
@@ -22,14 +22,14 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
         error: "User not found",
       });
     }
-    
+
     res.json({
       success: true,
       data: user
@@ -55,7 +55,7 @@ const createUser = async (req, res) => {
 
     const user = new User(req.body);
     const savedUser = await user.save();
-    
+
     res.status(201).json({
       success: true,
       data: savedUser
@@ -88,14 +88,14 @@ const updateUser = async (req, res) => {
       req.body,
       { new: true, runValidators: true }
     );
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
         error: "User not found",
       });
     }
-    
+
     res.json({
       success: true,
       data: user
@@ -118,14 +118,14 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
         error: "User not found",
       });
     }
-    
+
     res.json({
       success: true,
       message: "User deleted successfully",

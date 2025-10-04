@@ -50,7 +50,7 @@ const {
 
 /**
  * @swagger
- * /tasks:
+ * /api/tasks:
  *   get:
  *     summary: Get all tasks
  *     tags: [Tasks]
@@ -71,24 +71,11 @@ const {
  *                   items:
  *                     $ref: '#/components/schemas/Task'
  */
-router.get("/", (req, res) => {
-  /*  
-    #swagger.tags = ['Tasks']
-    #swagger.summary = 'Get all tasks for the current user'
-    #swagger.description = 'Retrieve all tasks belonging to the authenticated user, sorted by creation date.'
-    #swagger.parameters['x-user-id'] = {
-      in: 'header',
-      description: 'User ID for authentication',
-      required: false,
-      type: 'string'
-    }
-  */
-  getAllTasks(req, res);
-});
+router.get("/", getAllTasks);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /api/tasks/{id}:
  *   get:
  *     summary: Get a task by ID
  *     tags: [Tasks]
@@ -109,30 +96,11 @@ router.get("/", (req, res) => {
  *       404:
  *         description: Task not found
  */
-router.get("/:id", (req, res) => {
-  /*  
-    #swagger.tags = ['Tasks']
-    #swagger.summary = 'Get a specific task by ID'
-    #swagger.description = 'Retrieve details of a specific task by its ID.'
-    #swagger.parameters['id'] = {
-      in: 'path',
-      description: 'Task ID',
-      required: true,
-      type: 'string'
-    }
-    #swagger.parameters['x-user-id'] = {
-      in: 'header',
-      description: 'User ID for authentication',
-      required: false,
-      type: 'string'
-    }
-  */
-  getTaskById(req, res);
-});
+router.get("/:id", getTaskById); // FIXED: was "/.id"
 
 /**
  * @swagger
- * /tasks:
+ * /api/tasks:
  *   post:
  *     summary: Create a new task
  *     tags: [Tasks]
@@ -167,36 +135,11 @@ router.get("/:id", (req, res) => {
  *       400:
  *         description: Validation error
  */
-router.post("/", (req, res) => {
-  /*  
-    #swagger.tags = ['Tasks']
-    #swagger.summary = 'Create a new task'
-    #swagger.description = 'Create a new task for the authenticated user.'
-    #swagger.parameters['x-user-id'] = {
-      in: 'header',
-      description: 'User ID for authentication',
-      required: false,
-      type: 'string'
-    }
-    #swagger.parameters['body'] = {
-      in: 'body',
-      description: 'Task information',
-      required: true,
-      schema: {
-        title: 'Learn Node.js',
-        description: 'Complete Node.js tutorial',
-        priority: 'high',
-        dueDate: '2024-12-31',
-        category: 'learning'
-      }
-    }
-  */
-  createTask(req, res);
-});
+router.post("/", createTask);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /api/tasks/{id}:
  *   put:
  *     summary: Update a task
  *     tags: [Tasks]
@@ -236,41 +179,11 @@ router.post("/", (req, res) => {
  *       400:
  *         description: Validation error
  */
-router.put("/:id", (req, res) => {
-  /*  
-    #swagger.tags = ['Tasks']
-    #swagger.summary = 'Update an existing task'
-    #swagger.description = 'Update details of an existing task by its ID.'
-    #swagger.parameters['id'] = {
-      in: 'path',
-      description: 'Task ID',
-      required: true,
-      type: 'string'
-    }
-    #swagger.parameters['x-user-id'] = {
-      in: 'header',
-      description: 'User ID for authentication',
-      required: false,
-      type: 'string'
-    }
-    #swagger.parameters['body'] = {
-      in: 'body',
-      description: 'Updated task information',
-      required: true,
-      schema: {
-        title: 'Updated task title',
-        description: 'Updated description',
-        priority: 'medium',
-        isCompleted: true
-      }
-    }
-  */
-  updateTask(req, res);
-});
+router.put("/:id", updateTask);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /api/tasks/{id}:
  *   delete:
  *     summary: Delete a task
  *     tags: [Tasks]
@@ -287,25 +200,6 @@ router.put("/:id", (req, res) => {
  *       404:
  *         description: Task not found
  */
-router.delete("/:id", (req, res) => {
-  /*  
-    #swagger.tags = ['Tasks']
-    #swagger.summary = 'Delete a task'
-    #swagger.description = 'Delete a specific task by its ID.'
-    #swagger.parameters['id'] = {
-      in: 'path',
-      description: 'Task ID',
-      required: true,
-      type: 'string'
-    }
-    #swagger.parameters['x-user-id'] = {
-      in: 'header',
-      description: 'User ID for authentication',
-      required: false,
-      type: 'string'
-    }
-  */
-  deleteTask(req, res);
-});
+router.delete("/:id", deleteTask);
 
 module.exports = router;
