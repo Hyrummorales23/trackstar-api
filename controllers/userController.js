@@ -45,6 +45,8 @@ const getUserById = async (req, res) => {
 // Create new user
 const createUser = async (req, res) => {
   try {
+    console.log("Creating user with data:", req.body);
+    
     // Basic validation
     if (!req.body.oauthId || !req.body.provider || !req.body.name || !req.body.email) {
       return res.status(400).json({
@@ -55,12 +57,16 @@ const createUser = async (req, res) => {
 
     const user = new User(req.body);
     const savedUser = await user.save();
-
+    
+    console.log("User created successfully:", savedUser._id);
     res.status(201).json({
       success: true,
       data: savedUser
     });
   } catch (error) {
+    console.log("Error creating user:", error.message);
+    console.log("Error code:", error.code);
+    
     if (error.name === "ValidationError") {
       return res.status(400).json({
         success: false,
@@ -68,9 +74,10 @@ const createUser = async (req, res) => {
       });
     }
     if (error.code === 11000) {
+      console.log("Duplicate key error details:", error.keyValue);
       return res.status(400).json({
         success: false,
-        error: "User with this providerId or email already exists",
+        error: "User with this oauthId or email already exists",
       });
     }
     res.status(500).json({

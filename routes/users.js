@@ -15,7 +15,7 @@ const {
  *     User:
  *       type: object
  *       required:
- *         - providerId
+ *         - oauthId
  *         - provider
  *         - name
  *         - email
@@ -23,7 +23,7 @@ const {
  *         _id:
  *           type: string
  *           description: The auto-generated id of the user
- *         providerId:
+ *         oauthId:
  *           type: string
  *           description: The OAuth provider's user ID
  *         provider:
@@ -142,12 +142,12 @@ router.get("/:id", (req, res) => {
  *           schema:
  *             type: object
  *             required:
- *               - providerId
+ *               - oauthId
  *               - provider
  *               - name
  *               - email
  *             properties:
- *               providerId:
+ *               oauthId:
  *                 type: string
  *               provider:
  *                 type: string
@@ -182,7 +182,7 @@ router.post("/", (req, res) => {
       description: 'User information',
       required: true,
       schema: {
-        providerId: 'github_123456789',
+        oauthId: 'github_123456789',
         provider: 'github',
         name: 'John Doe',
         email: 'john.doe@example.com',

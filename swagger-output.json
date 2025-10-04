@@ -513,7 +513,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "providerId": {
+                "oauthId": {
                   "type": "string",
                   "example": "github_123456789"
                 },
