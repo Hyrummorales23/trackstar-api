@@ -8,7 +8,7 @@
     "dev": "nodemon server.js",
     "test": "jest",
     "swagger": "node swagger.js",
-    "prestart": "npm run swagger",
+    "build": "npm run swagger",
     "swagger-start": "npm run swagger && npm start",
     "swagger-dev": "npm run swagger && npm run dev"
   },
