@@ -2,7 +2,7 @@ App live on https://trackstar-api.onrender.com
 
 // Create new user
 {
-  "providerId": "test_12345",
+  "oauthId": "github_123456789",
   "provider": "github",
   "name": "Test User",
   "email": "test@example.com",
