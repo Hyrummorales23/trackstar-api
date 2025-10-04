@@ -9,10 +9,10 @@ const PORT = process.env.PORT || 3000;
 // CORS Middleware
 app.use(cors({
   origin: [
-    'http://localhost:3000', 
-    'https://localhost:3000',
-    process.env.RENDER_URL || ''
-  ].filter(Boolean),
+    'https://trackstar-api.onrender.com',
+    'http://localhost:3000',
+    'https://localhost:3000'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept']

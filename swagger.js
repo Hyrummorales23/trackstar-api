@@ -1,12 +1,6 @@
 const swaggerAutogen = require("swagger-autogen")();
 
-// Extract hostname from RENDER_URL (remove https://)
-const getHost = () => {
-  if (process.env.RENDER_URL) {
-    return process.env.RENDER_URL.replace('https://', '').replace('http://', '');
-  }
-  return "localhost:3000";
-};
+const host = process.env.RENDER_URL || process.env.RENDER_EXTERNAL_URL || "localhost:3000";
 
 const doc = {
   info: {
@@ -18,8 +12,8 @@ const doc = {
       email: "support@trackstar.com",
     },
   },
-  host: getHost(),
-  schemes: process.env.RENDER_URL ? ["https"] : ["http", "https"], // Use https for Render, both for local
+  host:  host.replace('https://', '').replace('http://', ''), // Remove protocol
+  schemes: host.includes('localhost') ? ["http", "https"] : ["https"], // Use https for non-localhost
   tags: [
     {
       name: "Server",
