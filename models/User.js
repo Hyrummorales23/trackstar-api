@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   // OAuth fields from provider (like GitHub)
-  providerId: {
+  oauthId: {
     type: String,
     required: [true, "Provider ID is required"],
     unique: true,

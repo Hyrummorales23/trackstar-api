@@ -1,11 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const {
-  getCurrentUser,
-  updateCurrentUser,
-  deleteCurrentUser,
+  getAllUsers,
+  getUserById,
   createUser,
-} = require("../controllers/userController");
+  updateUser,
+  deleteUser
+} = require('../controllers/userController');
 
 /**
  * @swagger
@@ -13,10 +14,22 @@ const {
  *   schemas:
  *     User:
  *       type: object
+ *       required:
+ *         - providerId
+ *         - provider
+ *         - name
+ *         - email
  *       properties:
  *         _id:
  *           type: string
  *           description: The auto-generated id of the user
+ *         providerId:
+ *           type: string
+ *           description: The OAuth provider's user ID
+ *         provider:
+ *           type: string
+ *           enum: [github, google]
+ *           description: The OAuth provider
  *         name:
  *           type: string
  *           description: The user's full name
@@ -28,7 +41,7 @@ const {
  *           description: The user's username
  *         avatar:
  *           type: string
- *           description: URL to user's avatar image
+ *           description: URL to the user's avatar image
  *         timezone:
  *           type: string
  *           description: The user's timezone
@@ -50,17 +63,11 @@ const {
  * @swagger
  * /users:
  *   get:
- *     summary: Get current user profile
+ *     summary: Get all users
  *     tags: [Users]
- *     parameters:
- *       - in: header
- *         name: x-user-id
- *         schema:
- *           type: string
- *         description: User ID (temporary for testing)
  *     responses:
  *       200:
- *         description: User profile retrieved successfully
+ *         description: List of all users
  *         content:
  *           application/json:
  *             schema:
@@ -68,151 +75,45 @@ const {
  *               properties:
  *                 success:
  *                   type: boolean
+ *                 count:
+ *                   type: integer
  *                 data:
- *                   $ref: '#/components/schemas/User'
- *       401:
- *         description: User not authenticated
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ */
+router.get('/', getAllUsers);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Get a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: User details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
  *       404:
  *         description: User not found
  */
-router.get("/", (req, res) => {
-  /*  
-    #swagger.tags = ['Users']
-    #swagger.summary = 'Get current user profile'
-    #swagger.description = 'Retrieve the profile information of the currently authenticated user.'
-    #swagger.parameters['x-user-id'] = {
-      in: 'header',
-      description: 'User ID for authentication',
-      required: true,
-      type: 'string'
-    }
-  */
-  getCurrentUser(req, res);
-});
+router.get('/:id', getUserById);
 
 /**
  * @swagger
  * /users:
- *   put:
- *     summary: Update current user profile
- *     tags: [Users]
- *     parameters:
- *       - in: header
- *         name: x-user-id
- *         schema:
- *           type: string
- *         description: User ID (temporary for testing)
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: Updated user name
- *               username:
- *                 type: string
- *                 description: Updated username
- *               timezone:
- *                 type: string
- *                 description: Updated timezone
- *     responses:
- *       200:
- *         description: User profile updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 data:
- *                   $ref: '#/components/schemas/User'
- *                 message:
- *                   type: string
- *       400:
- *         description: Validation error or no valid updates
- *       401:
- *         description: User not authenticated
- *       404:
- *         description: User not found
- */
-router.put("/", (req, res) => {
-  /*  
-    #swagger.tags = ['Users']
-    #swagger.summary = 'Update current user profile'
-    #swagger.description = 'Update the profile information of the currently authenticated user.'
-    #swagger.parameters['x-user-id'] = {
-      in: 'header',
-      description: 'User ID for authentication',
-      required: true,
-      type: 'string'
-    }
-    #swagger.parameters['body'] = {
-      in: 'body',
-      description: 'Updated user information',
-      required: true,
-      schema: {
-        name: 'John Doe',
-        username: 'johndoe',
-        timezone: 'America/New_York'
-      }
-    }
-  */
-  updateCurrentUser(req, res);
-});
-
-/**
- * @swagger
- * /users:
- *   delete:
- *     summary: Delete/deactivate current user account
- *     tags: [Users]
- *     parameters:
- *       - in: header
- *         name: x-user-id
- *         schema:
- *           type: string
- *         description: User ID (temporary for testing)
- *     responses:
- *       200:
- *         description: User account deactivated successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *       401:
- *         description: User not authenticated
- *       404:
- *         description: User not found
- */
-router.delete("/", (req, res) => {
-  /*  
-    #swagger.tags = ['Users']
-    #swagger.summary = 'Delete/deactivate user account'
-    #swagger.description = 'Deactivate the current user account. This is a soft delete operation.'
-    #swagger.parameters['x-user-id'] = {
-      in: 'header',
-      description: 'User ID for authentication',
-      required: true,
-      type: 'string'
-    }
-  */
-  deleteCurrentUser(req, res);
-});
-
-/**
- * @swagger
- * /users/register:
  *   post:
- *     summary: Create new user (OAuth callback)
+ *     summary: Create a new user
  *     tags: [Users]
  *     requestBody:
  *       required: true
@@ -228,62 +129,92 @@ router.delete("/", (req, res) => {
  *             properties:
  *               providerId:
  *                 type: string
- *                 description: Provider's user ID
  *               provider:
  *                 type: string
  *                 enum: [github, google]
- *                 description: OAuth provider
  *               name:
  *                 type: string
- *                 description: User's full name
  *               email:
  *                 type: string
- *                 description: User's email address
  *               username:
  *                 type: string
- *                 description: User's username
  *               avatar:
  *                 type: string
- *                 description: URL to user's avatar
+ *               timezone:
+ *                 type: string
  *     responses:
  *       201:
  *         description: User created successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 data:
- *                   $ref: '#/components/schemas/User'
- *                 message:
- *                   type: string
- *       200:
- *         description: User already exists - logged in successfully
+ *               $ref: '#/components/schemas/User'
  *       400:
- *         description: Validation error or user already exists
+ *         description: Validation error or duplicate user
  */
-router.post("/register", (req, res) => {
-  /*  
-    #swagger.tags = ['Users']
-    #swagger.summary = 'Register new user (OAuth callback)'
-    #swagger.description = 'Create a new user account or login existing user via OAuth provider.'
-    #swagger.parameters['body'] = {
-      in: 'body',
-      description: 'User registration information from OAuth provider',
-      required: true,
-      schema: {
-        providerId: '12345',
-        provider: 'github',
-        name: 'John Doe',
-        email: 'john@example.com',
-        username: 'johndoe',
-        avatar: 'https://avatar.url.com/john.jpg'
-      }
-    }
-  */
-  createUser(req, res);
-});
+router.post('/', createUser);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   put:
+ *     summary: Update a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               username:
+ *                 type: string
+ *               avatar:
+ *                 type: string
+ *               timezone:
+ *                 type: string
+ *               isActive:
+ *                 type: boolean
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *       404:
+ *         description: User not found
+ *       400:
+ *         description: Validation error
+ */
+router.put('/:id', updateUser);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     summary: Delete a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *       404:
+ *         description: User not found
+ */
+router.delete('/:id', deleteUser);
 
 module.exports = router;
