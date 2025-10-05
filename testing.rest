@@ -11,8 +11,9 @@ App live on https://trackstar-api.onrender.com
 
 //Create new task
 {
-  "title": "Complete Week 5 Project",
-  "description": "Finish the TrackStar API with full CRUD operations",
-  "priority": "high",
-  "userId": "Replace_with_userId"
+  "userId": "replace",
+  "title": "Buy groceries",
+  "description": "Milk, eggs, bread, and fruits",
+  "priority": "medium",
+  "category": "personal"
 }
