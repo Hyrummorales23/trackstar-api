@@ -9,10 +9,6 @@ const habitRoutes = require("./habits");
 const userRoutes = require("./users");
 const habitLogRoutes = require("./habitLogs");
 const authRoutes = require("./authRoutes");
-// Serve the test page
-router.get('/test-auth', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/test-auth.html'));
-});
 
 // Swagger Documentation Route
 router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -48,5 +44,39 @@ router.use("/api", apiRouter);
 
 // Add auth routes at root level
 router.use("/auth", authRoutes);
+
+// Debug routes for session testing
+router.get('/debug/session', (req, res) => {
+    res.json({
+        sessionId: req.sessionID,
+        authenticated: req.isAuthenticated(),
+        user: req.user || null,
+        session: req.session,
+        headers: {
+            host: req.headers.host,
+            'user-agent': req.headers['user-agent'],
+            cookie: req.headers.cookie ? 'present' : 'missing'
+        }
+    });
+});
+
+router.get('/debug/set-test-session', (req, res) => {
+    req.session.testValue = 'This is a test session value';
+    req.session.testTime = new Date().toISOString();
+    res.json({
+        success: true,
+        message: 'Test session value set',
+        sessionId: req.sessionID
+    });
+});
+
+router.get('/debug/get-test-session', (req, res) => {
+    res.json({
+        success: true,
+        testValue: req.session.testValue,
+        testTime: req.session.testTime,
+        sessionId: req.sessionID
+    });
+});
 
 module.exports = router;

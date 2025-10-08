@@ -145,4 +145,15 @@ router.get('/logout', (req, res) => {
   });
 });
 
+// debug and test
+router.get('/auth/debug-callback', (req, res) => {
+    res.json({
+        sessionId: req.sessionID,
+        authenticated: req.isAuthenticated(),
+        user: req.user || null,
+        query: req.query,
+        cookies: req.headers.cookie
+    });
+});
+
 module.exports = router;

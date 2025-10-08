@@ -10,21 +10,31 @@ require('./config/oauth');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// TRUST PROXY - CRITICAL FOR RENDER
+app.set('trust proxy', 1); // Trust first proxy
+
 // CORS Middleware
 app.use(cors({
     origin: process.env.RENDER_URL || "http://localhost:3000",
     credentials: true
 }));
 
-// Session middleware
+// Session middleware - UPDATED FOR PRODUCTION
 app.use(session({
     secret: process.env.SESSION_SECRET || 'trackstar-secret',
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+        collectionName: 'sessions'
+    }),
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
+        secure: true,
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: 'lax'
+    },
+    proxy: true
 }));
 
 // Passport middleware
