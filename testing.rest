@@ -212,13 +212,12 @@ x-user-id: 68e5923a9ed1e8dc926cbbaa
 Create New Habit Log (PROTECTED - requires authentication)
 POST https://trackstar-api.onrender.com/api/habit-logs
 Content-Type: application/json
-
+Required: User id: 68e5923a9ed1e8dc926cbbaa
 {
-  "habitId": "{{habitId}}",
-  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "habitId": "replace",
   "completedDate": "2024-10-15T08:00:00.000Z",
   "completionCount": 1,
-  "notes": "Completed morning session",
+  "notes": "Completed evening session",
   "mood": "good",
   "difficulty": 2
 }
