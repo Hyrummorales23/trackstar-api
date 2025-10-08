@@ -8,6 +8,7 @@ const taskRoutes = require("./tasks");
 const habitRoutes = require("./habits");
 const userRoutes = require("./users");
 const habitLogRoutes = require("./habitLogs");
+const authRoutes = require("./authRoutes");
 
 // Swagger Documentation Route
 router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -38,45 +39,10 @@ apiRouter.use("/habits", habitRoutes);
 apiRouter.use("/users", userRoutes);
 apiRouter.use("/habit-logs", habitLogRoutes);
 
-// Root API route - API information
-apiRouter.get("/", (req, res) => {
-  /*  
-    #swagger.tags = ['Server']
-    #swagger.summary = 'Get API information and available endpoints'
-    #swagger.description = 'Returns detailed information about the TrackStar API including all available endpoints and their purposes.'
-  */
-  res.json({
-    message: "TrackStar API - Personal Task & Habit Tracker",
-    version: "1.0.0",
-    endpoints: {
-      documentation: "/api-docs",
-      users: "/api/users",
-      tasks: "/api/tasks",
-      habits: "/api/habits",
-      habitLogs: "/api/habit-logs",
-    },
-    status: "operational",
-    timestamp: new Date().toISOString(),
-  });
-});
-
-// Health check endpoint
-apiRouter.get("/health", (req, res) => {
-  /*  
-    #swagger.tags = ['Server']
-    #swagger.summary = 'Health check endpoint'
-    #swagger.description = 'Returns server health status including uptime, memory usage, and Node.js version.'
-  */
-  res.json({
-    status: "healthy",
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    memory: process.memoryUsage(),
-    version: process.version,
-  });
-});
-
 // Mount API routes
 router.use("/api", apiRouter);
+
+// Add auth routes at root level
+router.use("/auth", authRoutes);
 
 module.exports = router;

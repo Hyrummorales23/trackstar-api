@@ -7,6 +7,7 @@ const {
   updateTask,
   deleteTask,
 } = require("../controllers/taskController");
+const { requireAuth } = require("../middleware/auth");
 
 /**
  * @swagger
@@ -155,7 +156,7 @@ router.get("/:id", (req, res) => {
  *       400:
  *         description: Validation error
  */
-router.post("/", (req, res) => {
+router.post("/", requireAuth, (req, res) => {
   /*  
     #swagger.tags = ['Tasks']
     #swagger.summary = 'Create a new task'
@@ -218,7 +219,7 @@ router.post("/", (req, res) => {
  *       400:
  *         description: Validation error
  */
-router.put("/:id", (req, res) => {
+router.put("/:id", requireAuth, (req, res) => {
   /*  
     #swagger.tags = ['Tasks']
     #swagger.summary = 'Update an existing task'
@@ -264,7 +265,7 @@ router.put("/:id", (req, res) => {
  *       404:
  *         description: Task not found
  */
-router.delete("/:id", (req, res) => {
+router.delete("/:id", requireAuth, (req, res) => {
   /*  
     #swagger.tags = ['Tasks']
     #swagger.summary = 'Delete a task'

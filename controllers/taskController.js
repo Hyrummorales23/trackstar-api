@@ -43,34 +43,40 @@ const getTaskById = async (req, res) => {
 
 // Create new task
 const createTask = async (req, res) => {
-  try {
-    // Basic validation
-    if (!req.body.title) {
-      return res.status(400).json({
-        success: false,
-        error: 'Title is required'
-      });
-    }
+    try {
+        // Basic validation
+        if (!req.body.title) {
+            return res.status(400).json({
+                success: false,
+                error: 'Title is required'
+            });
+        }
 
-    const task = new Task(req.body);
-    const savedTask = await task.save();
-    
-    res.status(201).json({
-      success: true,
-      data: savedTask
-    });
-  } catch (error) {
-    if (error.name === 'ValidationError') {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation error: ' + error.message
-      });
+        // Add user ID from authenticated session
+        const taskData = {
+            ...req.body,
+            userId: req.user._id // Add authenticated user ID
+        };
+
+        const task = new Task(taskData);
+        const savedTask = await task.save();
+
+        res.status(201).json({
+            success: true,
+            data: savedTask
+        });
+    } catch (error) {
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                success: false,
+                error: 'Validation error: ' + error.message
+            });
+        }
+        res.status(500).json({
+            success: false,
+            error: 'Error creating task: ' + error.message
+        });
     }
-    res.status(500).json({
-      success: false,
-      error: 'Error creating task: ' + error.message
-    });
-  }
 };
 
 // Update task

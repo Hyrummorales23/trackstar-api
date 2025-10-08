@@ -7,6 +7,8 @@ const {
   updateHabit,
   deleteHabit,
 } = require("../controllers/habitController");
+const { requireAuth } = require("../middleware/auth");
+
 
 /**
  * @swagger
@@ -165,7 +167,7 @@ router.get("/:id", (req, res) => {
  *       400:
  *         description: Validation error
  */
-router.post("/", (req, res) => {
+router.post("/", requireAuth, (req, res) => {
   /*  
     #swagger.tags = ['Habits']
     #swagger.summary = 'Create a new habit'
@@ -233,7 +235,7 @@ router.post("/", (req, res) => {
  *       400:
  *         description: Validation error
  */
-router.put("/:id", (req, res) => {
+router.put("/:id", requireAuth, (req, res) => {
   /*  
     #swagger.tags = ['Habits']
     #swagger.summary = 'Update an existing habit'
@@ -284,7 +286,7 @@ router.put("/:id", (req, res) => {
  *       404:
  *         description: Habit not found
  */
-router.delete("/:id", (req, res) => {
+router.delete("/:id", requireAuth, (req, res) => {
   /*  
     #swagger.tags = ['Habits']
     #swagger.summary = 'Delete a habit'
