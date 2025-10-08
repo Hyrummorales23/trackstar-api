@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Authentication</title>
+</head>
+<body>
+    <h1>TrackStar API Authentication Test</h1>
+    
+    <div id="status">Checking authentication status...</div>
+    
+    <button onclick="checkAuth()">Check Auth Status</button>
+    <button onclick="login()">Login with Google</button>
+    <button onclick="logout()">Logout</button>
+    <button onclick="testProtectedRoute()">Test Protected Route</button>
+    
+    <div id="result" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;"></div>
+
+    <script>
+        async function checkAuth() {
+            try {
+                const response = await fetch('/auth/user', {
+                    credentials: 'include' // Important: include cookies
+                });
+                const data = await response.json();
+                document.getElementById('status').innerHTML = 
+                    data.success ? 
+                    `✅ Authenticated as: ${data.user.name}` : 
+                    '❌ Not authenticated';
+                document.getElementById('result').innerHTML = 
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error;
+            }
+        }
+
+        function login() {
+            window.location.href = '/auth/google';
+        }
+
+        async function logout() {
+            try {
+                const response = await fetch('/auth/logout', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                document.getElementById('result').innerHTML = 
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                checkAuth();
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error;
+            }
+        }
+
+        async function testProtectedRoute() {
+            try {
+                const response = await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include', // Important: include cookies
+                    body: JSON.stringify({
+                        title: 'Test Task from Auth Test',
+                        description: 'This is a test task',
+                        priority: 'medium'
+                    })
+                });
+                const data = await response.json();
+                document.getElementById('result').innerHTML = 
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error;
+            }
+        }
+
+        // Check auth status on page load
+        checkAuth();
+    </script>
+</body>
+</html>

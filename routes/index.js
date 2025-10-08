@@ -9,6 +9,10 @@ const habitRoutes = require("./habits");
 const userRoutes = require("./users");
 const habitLogRoutes = require("./habitLogs");
 const authRoutes = require("./authRoutes");
+// Serve the test page
+router.get('/test-auth', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/test-auth.html'));
+});
 
 // Swagger Documentation Route
 router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
