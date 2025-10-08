@@ -10,6 +10,7 @@
     }
   },
   "host": "trackstar-api.onrender.com",
+  "schemes": ["https"],
   "basePath": "/",
   "tags": [
     {
@@ -32,10 +33,6 @@
       "name": "Habit Logs",
       "description": "Habit logging and tracking operations - Record and analyze habit completions"
     }
-  ],
-  "schemes": [
-    "http",
-    "https"
   ],
   "paths": {
     "/": {
