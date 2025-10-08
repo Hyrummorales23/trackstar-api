@@ -17,3 +17,300 @@ App live on https://trackstar-api.onrender.com
   "priority": "medium",
   "category": "personal"
 }
+
+### API Documentation
+GET https://trackstar-api.onrender.com/api-docs
+Accept: application/json
+
+### Authentication Routes
+
+Start Google OAuth
+GET https://trackstar-api.onrender.com/auth/google
+
+Check Current User
+GET https://trackstar-api.onrender.com/auth/user
+Accept: application/json
+
+Logout
+GET https://trackstar-api.onrender.com/auth/logout
+Accept: application/json
+
+### USERS COLLECTION
+
+Get All Users
+GET https://trackstar-api.onrender.com/api/users
+Accept: application/json
+
+Get User by ID
+GET https://trackstar-api.onrender.com/api/users/68e5923a9ed1e8dc926cbbaa
+Accept: application/json
+
+Create New User
+POST https://trackstar-api.onrender.com/api/users
+Content-Type: application/json
+
+{
+  "oauthId": "github_999888777",
+  "provider": "github",
+  "name": "Test User",
+  "email": "test@example.com",
+  "username": "testuser",
+  "avatar": "https://example.com/avatar.jpg",
+  "timezone": "UTC-5"
+}
+
+Update User
+PUT https://trackstar-api.onrender.com/api/users/68e5923a9ed1e8dc926cbbaa
+Content-Type: application/json
+
+{
+  "name": "Updated Test User",
+  "email": "updated@example.com",
+  "username": "updateduser",
+  "timezone": "UTC-8"
+}
+
+Delete User
+DELETE https://trackstar-api.onrender.com/api/users/68e5923a9ed1e8dc926cbbaa
+Accept: application/json
+
+### TASKS COLLECTION
+
+Get All Tasks
+GET https://trackstar-api.onrender.com/api/tasks
+Accept: application/json
+
+Get Task by ID
+GET https://trackstar-api.onrender.com/api/tasks/{{taskId}}
+Accept: application/json
+
+Create New Task (PROTECTED - requires authentication)
+POST https://trackstar-api.onrender.com/api/tasks
+Content-Type: application/json
+
+
+{
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "title": "Buy groceries",
+  "description": "Milk, eggs, bread, and fruits",
+  "dueDate": "2024-12-31",
+  "priority": "medium",
+  "category": "personal",
+  "isCompleted": false
+}
+
+Create Another Task
+POST https://trackstar-api.onrender.com/api/tasks
+Content-Type: application/json
+
+{
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "title": "Complete project documentation",
+  "description": "Write comprehensive documentation for TrackStar API",
+  "dueDate": "2024-12-15",
+  "priority": "high",
+  "category": "work",
+  "isCompleted": false
+}
+
+Update Task (PROTECTED - requires authentication)
+PUT https://trackstar-api.onrender.com/api/tasks/{{taskId}}
+Content-Type: application/json
+
+{
+  "title": "Updated Task Title",
+  "description": "Updated description",
+  "priority": "low",
+  "isCompleted": true,
+  "category": "updated-category"
+}
+
+Delete Task (PROTECTED - requires authentication)
+DELETE https://trackstar-api.onrender.com/api/tasks/{{taskId}}
+Accept: application/json
+
+### HABITS COLLECTION
+
+Get All Habits
+GET https://trackstar-api.onrender.com/api/habits
+Accept: application/json
+
+Get Habit by ID
+GET https://trackstar-api.onrender.com/api/habits/{{habitId}}
+Accept: application/json
+
+Create New Habit (PROTECTED - requires authentication)
+POST https://trackstar-api.onrender.com/api/habits
+Content-Type: application/json
+
+{
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "name": "Daily Exercise",
+  "description": "Do 30 minutes of exercise daily",
+  "frequency": "daily",
+  "targetCount": 1,
+  "category": "health",
+  "isActive": true
+}
+
+Create Another Habit
+POST https://trackstar-api.onrender.com/api/habits
+Content-Type: application/json
+
+{
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "name": "Morning Meditation",
+  "description": "Meditate for 10 minutes every morning",
+  "frequency": "daily",
+  "targetCount": 1,
+  "category": "wellness",
+  "isActive": true
+}
+
+Create Weekly Habit
+POST https://trackstar-api.onrender.com/api/habits
+Content-Type: application/json
+
+{
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "name": "Weekly Reading",
+  "description": "Read for 2 hours every week",
+  "frequency": "weekly",
+  "targetCount": 2,
+  "category": "personal-growth",
+  "isActive": true
+}
+
+Update Habit (PROTECTED - requires authentication)
+PUT https://trackstar-api.onrender.com/api/habits/{{habitId}}
+Content-Type: application/json
+
+{
+  "name": "Updated Habit Name",
+  "description": "Updated habit description",
+  "frequency": "weekly",
+  "targetCount": 3,
+  "isActive": false
+}
+
+Delete Habit (PROTECTED - requires authentication)
+DELETE https://trackstar-api.onrender.com/api/habits/{{habitId}}
+Accept: application/json
+
+### HABIT LOGS COLLECTION
+
+Get All Habit Logs
+GET https://trackstar-api.onrender.com/api/habit-logs
+Accept: application/json
+x-user-id: 68e5923a9ed1e8dc926cbbaa
+
+Get Habit Log by ID
+GET https://trackstar-api.onrender.com/api/habit-logs/{{habitLogId}}
+Accept: application/json
+x-user-id: 68e5923a9ed1e8dc926cbbaa
+
+Create New Habit Log (PROTECTED - requires authentication)
+POST https://trackstar-api.onrender.com/api/habit-logs
+Content-Type: application/json
+
+{
+  "habitId": "{{habitId}}",
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "completedDate": "2024-10-15T08:00:00.000Z",
+  "completionCount": 1,
+  "notes": "Completed morning session",
+  "mood": "good",
+  "difficulty": 2
+}
+
+Create Another Habit Log
+POST https://trackstar-api.onrender.com/api/habit-logs
+Content-Type: application/json
+
+
+{
+  "habitId": "{{habitId}}",
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "completedDate": "2024-10-16T08:00:00.000Z",
+  "completionCount": 1,
+  "notes": "Felt great today!",
+  "mood": "excellent",
+  "difficulty": 1
+}
+
+Update Habit Log (PROTECTED - requires authentication)
+PUT https://trackstar-api.onrender.com/api/habit-logs/{{habitLogId}}
+Content-Type: application/json
+
+{
+  "completionCount": 2,
+  "notes": "Updated notes - did extra reps today!",
+  "mood": "excellent",
+  "difficulty": 3
+}
+
+Delete Habit Log (PROTECTED - requires authentication)
+DELETE https://trackstar-api.onrender.com/api/habit-logs/{{habitLogId}}
+Accept: application/json
+
+Get Habit Statistics
+GET https://trackstar-api.onrender.com/api/habit-logs/stats/{{habitId}}
+Accept: application/json
+
+
+Get Habit Statistics with Custom Days
+GET https://trackstar-api.onrender.com/api/habit-logs/stats/{{habitId}}?days=60
+Accept: application/json
+x-user-id: 68e5923a9ed1e8dc926cbbaa
+
+### DATA VALIDATION TESTS
+
+Test Task Validation - Missing Required Field
+POST https://trackstar-api.onrender.com/api/tasks
+Content-Type: application/json
+
+{
+  "description": "This should fail without title",
+  "priority": "medium"
+}
+
+Test Habit Validation - Missing Required Field
+POST https://trackstar-api.onrender.com/api/habits
+Content-Type: application/json
+
+{
+  "description": "This should fail without name",
+  "frequency": "daily"
+}
+
+Test Habit Validation - Invalid Frequency
+POST https://trackstar-api.onrender.com/api/habits
+Content-Type: application/json
+
+{
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "name": "Invalid Habit",
+  "frequency": "yearly",  # Invalid - must be daily, weekly, or monthly
+  "targetCount": 1
+}
+
+Test Task Validation - Invalid Priority
+POST https://trackstar-api.onrender.com/api/tasks
+Content-Type: application/json
+
+{
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "title": "Invalid Task",
+  "priority": "urgent"  # Invalid - must be low, medium, or high
+}
+
+Test Habit Log Validation - Invalid Mood
+POST https://trackstar-api.onrender.com/api/habit-logs
+Content-Type: application/json
+x-user-id: 68e5923a9ed1e8dc926cbbaa
+
+{
+  "habitId": "{{habitId}}",
+  "userId": "68e5923a9ed1e8dc926cbbaa",
+  "mood": "amazing"  # Invalid - must be excellent, good, okay, difficult, struggling
+}
