@@ -9,7 +9,7 @@
       "email": "support@trackstar.com"
     }
   },
-  "host": "localhost:3000",
+  "host": "trackstar-api.onrender.com",
   "basePath": "/",
   "tags": [
     {
@@ -34,7 +34,6 @@
     }
   ],
   "schemes": [
-    "http",
     "https"
   ],
   "paths": {

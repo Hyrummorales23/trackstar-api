@@ -1,6 +1,6 @@
 const swaggerAutogen = require("swagger-autogen")();
 
-const host = process.env.RENDER_URL || process.env.RENDER_EXTERNAL_URL || "localhost:3000";
+const host = "trackstar-api.onrender.com";
 
 const doc = {
   info: {
@@ -12,8 +12,8 @@ const doc = {
       email: "support@trackstar.com",
     },
   },
-  host:  host.replace('https://', '').replace('http://', ''), // Remove protocol
-  schemes: host.includes('localhost') ? ["http", "https"] : ["https"], // Use https for non-localhost
+  host: host.replace("https://", "").replace("http://", ""), // Remove protocol
+  schemes: ["https"], // Use https for production
   tags: [
     {
       name: "Server",
