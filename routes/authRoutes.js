@@ -41,48 +41,30 @@ const router = express.Router();
  *         description: Redirects to Google OAuth consent screen
  */
 
-// Only register Google OAuth routes if credentials are available
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  router.get(
-    "/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
-  );
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
-  /**
-   * @swagger
-   * /auth/google/callback:
-   *   get:
-   *     summary: Google OAuth callback URL
-   *     tags: [Authentication]
-   *     responses:
-   *       302:
-   *         description: Redirects to home page after successful login
-   *       401:
-   *         description: Authentication failed
-   */
-  router.get(
-    "/google/callback",
-    passport.authenticate("google", {
-      failureRedirect: "/auth/failure",
-      successRedirect: "/api-docs",
-    })
-  );
-} else {
-  // Provide error routes when OAuth is not configured
-  router.get("/google", (req, res) => {
-    res.status(503).json({
-      success: false,
-      error: "Google OAuth is not configured. Please contact administrator.",
-    });
-  });
-
-  router.get("/google/callback", (req, res) => {
-    res.status(503).json({
-      success: false,
-      error: "Google OAuth is not configured. Please contact administrator.",
-    });
-  });
-}
+/**
+ * @swagger
+ * /auth/google/callback:
+ *   get:
+ *     summary: Google OAuth callback URL
+ *     tags: [Authentication]
+ *     responses:
+ *       302:
+ *         description: Redirects to home page after successful login
+ *       401:
+ *         description: Authentication failed
+ */
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/auth/failure",
+    successRedirect: "/api-docs",
+  })
+);
 
 /**
  * @swagger

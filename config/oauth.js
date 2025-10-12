@@ -17,61 +17,49 @@ const getCallbackURL = () => {
   }
 };
 
-// Only configure Google OAuth if credentials are available
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  console.log("🔑 Configuring Google OAuth...");
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: getCallbackURL(),
+      proxy: true, // Important for production
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        console.log("Google OAuth profile received:", profile.id);
 
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: getCallbackURL(),
-        proxy: true, // Important for production
-      },
-      async (accessToken, refreshToken, profile, done) => {
-        try {
-          console.log("Google OAuth profile received:", profile.id);
+        // Check if user already exists
+        let user = await User.findOne({
+          oauthId: profile.id,
+          provider: "google",
+        });
 
-          // Check if user already exists
-          let user = await User.findOne({
-            oauthId: profile.id,
-            provider: "google",
-          });
-
-          if (user) {
-            console.log("Existing user found:", user.email);
-            return done(null, user);
-          }
-
-          // Create new user
-          user = new User({
-            oauthId: profile.id,
-            provider: "google",
-            name: profile.displayName,
-            email: profile.emails[0].value,
-            username: profile.emails[0].value.split("@")[0],
-            avatar: profile.photos[0].value,
-          });
-
-          await user.save();
-          console.log("New user created:", user.email);
+        if (user) {
+          console.log("Existing user found:", user.email);
           return done(null, user);
-        } catch (error) {
-          console.error("OAuth error:", error);
-          return done(error, null);
         }
+
+        // Create new user
+        user = new User({
+          oauthId: profile.id,
+          provider: "google",
+          name: profile.displayName,
+          email: profile.emails[0].value,
+          username: profile.emails[0].value.split("@")[0],
+          avatar: profile.photos[0].value,
+        });
+
+        await user.save();
+        console.log("New user created:", user.email);
+        return done(null, user);
+      } catch (error) {
+        console.error("OAuth error:", error);
+        return done(error, null);
       }
-    )
-  );
-} else {
-  console.log(
-    "⚠️  Google OAuth credentials not found. OAuth authentication will be disabled."
-  );
-  console.log(
-    "   Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to .env file to enable OAuth."
-  );
-}
+    }
+  )
+);
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
