@@ -40,7 +40,6 @@ const router = express.Router();
  *       302:
  *         description: Redirects to Google OAuth consent screen
  */
-
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
