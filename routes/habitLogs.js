@@ -289,8 +289,9 @@ router.post("/", (req, res) => {
       description: 'Habit completion information',
       required: true,
       schema: {
-        habitId: '64a7b8c9d1234567890abcde',
-        completedDate: '2024-01-15',
+        habitId: '671b123456789abcdef12345',
+        userId: '671b123456789abcdef67890',
+        completedDate: '2024-10-15T08:00:00.000Z',
         completionCount: 1,
         notes: 'Completed morning workout',
         mood: 'good',
@@ -383,7 +384,7 @@ router.put("/:id", (req, res) => {
       required: true,
       schema: {
         completionCount: 2,
-        notes: 'Updated notes',
+        notes: 'Updated notes - did extra reps today!',
         mood: 'excellent',
         difficulty: 2
       }

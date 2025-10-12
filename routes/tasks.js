@@ -166,11 +166,13 @@ router.post("/", requireAuth, (req, res) => {
       description: 'Task information',
       required: true,
       schema: {
+        userId: '671b123456789abcdef12345',
         title: 'Complete project documentation',
         description: 'Write comprehensive documentation for the TrackStar API',
-        dueDate: '2024-12-31',
+        dueDate: '2024-12-31T23:59:59.000Z',
         priority: 'high',
-        category: 'work'
+        category: 'work',
+        isCompleted: false
       }
     }
   */

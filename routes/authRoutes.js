@@ -1,5 +1,5 @@
-const express = require('express');
-const passport = require('passport');
+const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 
 /**
@@ -40,28 +40,49 @@ const router = express.Router();
  *       302:
  *         description: Redirects to Google OAuth consent screen
  */
-router.get('/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-);
 
-/**
- * @swagger
- * /auth/google/callback:
- *   get:
- *     summary: Google OAuth callback URL
- *     tags: [Authentication]
- *     responses:
- *       302:
- *         description: Redirects to home page after successful login
- *       401:
- *         description: Authentication failed
- */
-router.get('/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/auth/failure',
-    successRedirect: '/api-docs'
-  })
-);
+// Only register Google OAuth routes if credentials are available
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  router.get(
+    "/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+  );
+
+  /**
+   * @swagger
+   * /auth/google/callback:
+   *   get:
+   *     summary: Google OAuth callback URL
+   *     tags: [Authentication]
+   *     responses:
+   *       302:
+   *         description: Redirects to home page after successful login
+   *       401:
+   *         description: Authentication failed
+   */
+  router.get(
+    "/google/callback",
+    passport.authenticate("google", {
+      failureRedirect: "/auth/failure",
+      successRedirect: "/api-docs",
+    })
+  );
+} else {
+  // Provide error routes when OAuth is not configured
+  router.get("/google", (req, res) => {
+    res.status(503).json({
+      success: false,
+      error: "Google OAuth is not configured. Please contact administrator.",
+    });
+  });
+
+  router.get("/google/callback", (req, res) => {
+    res.status(503).json({
+      success: false,
+      error: "Google OAuth is not configured. Please contact administrator.",
+    });
+  });
+}
 
 /**
  * @swagger
@@ -84,7 +105,7 @@ router.get('/google/callback',
  *       401:
  *         description: User not authenticated
  */
-router.get('/user', (req, res) => {
+router.get("/user", (req, res) => {
   if (req.isAuthenticated()) {
     res.json({
       success: true,
@@ -92,13 +113,13 @@ router.get('/user', (req, res) => {
         id: req.user._id,
         name: req.user.name,
         email: req.user.email,
-        avatar: req.user.avatar
-      }
+        avatar: req.user.avatar,
+      },
     });
   } else {
     res.status(401).json({
       success: false,
-      error: 'Not authenticated'
+      error: "Not authenticated",
     });
   }
 });
@@ -113,10 +134,10 @@ router.get('/user', (req, res) => {
  *       401:
  *         description: Returns login failure message
  */
-router.get('/failure', (req, res) => {
+router.get("/failure", (req, res) => {
   res.status(401).json({
     success: false,
-    error: 'Google authentication failed'
+    error: "Google authentication failed",
   });
 });
 
@@ -130,30 +151,30 @@ router.get('/failure', (req, res) => {
  *       200:
  *         description: Logout successful
  */
-router.get('/logout', (req, res) => {
+router.get("/logout", (req, res) => {
   req.logout((err) => {
     if (err) {
       return res.status(500).json({
         success: false,
-        error: 'Logout failed'
+        error: "Logout failed",
       });
     }
     res.json({
       success: true,
-      message: 'Logout successful'
+      message: "Logout successful",
     });
   });
 });
 
 // debug and test
-router.get('/auth/debug-callback', (req, res) => {
-    res.json({
-        sessionId: req.sessionID,
-        authenticated: req.isAuthenticated(),
-        user: req.user || null,
-        query: req.query,
-        cookies: req.headers.cookie
-    });
+router.get("/auth/debug-callback", (req, res) => {
+  res.json({
+    sessionId: req.sessionID,
+    authenticated: req.isAuthenticated(),
+    user: req.user || null,
+    query: req.query,
+    cookies: req.headers.cookie,
+  });
 });
 
 module.exports = router;

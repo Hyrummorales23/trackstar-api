@@ -9,8 +9,7 @@
       "email": "support@trackstar.com"
     }
   },
-  "host": "trackstar-api.onrender.com",
-  "schemes": ["https"],
+  "host": "localhost:3000",
   "basePath": "/",
   "tags": [
     {
@@ -34,6 +33,10 @@
       "description": "Habit logging and tracking operations - Record and analyze habit completions"
     }
   ],
+  "schemes": [
+    "http",
+    "https"
+  ],
   "paths": {
     "/": {
       "get": {
@@ -42,6 +45,53 @@
         ],
         "summary": "Get server status and information",
         "description": "Returns general information about the TrackStar API server including version, status, and available endpoints.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/debug/session": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "host",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "user-agent",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/debug/set-test-session": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/debug/get-test-session": {
+      "get": {
+        "description": "",
         "responses": {
           "200": {
             "description": "OK"
@@ -80,6 +130,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "671b123456789abcdef12345"
+                },
                 "title": {
                   "type": "string",
                   "example": "Complete project documentation"
@@ -90,7 +144,7 @@
                 },
                 "dueDate": {
                   "type": "string",
-                  "example": "2024-12-31"
+                  "example": "2024-12-31T23:59:59.000Z"
                 },
                 "priority": {
                   "type": "string",
@@ -99,6 +153,10 @@
                 "category": {
                   "type": "string",
                   "example": "work"
+                },
+                "isCompleted": {
+                  "type": "boolean",
+                  "example": false
                 }
               }
             }
@@ -290,6 +348,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "671b123456789abcdef12345"
+                },
                 "name": {
                   "type": "string",
                   "example": "Daily Exercise"
@@ -309,6 +371,10 @@
                 "category": {
                   "type": "string",
                   "example": "health"
+                },
+                "isActive": {
+                  "type": "boolean",
+                  "example": true
                 }
               }
             }
@@ -405,6 +471,14 @@
                 "frequency": {
                   "type": "string",
                   "example": "weekly"
+                },
+                "targetCount": {
+                  "type": "number",
+                  "example": 3
+                },
+                "category": {
+                  "type": "string",
+                  "example": "updated-category"
                 },
                 "isActive": {
                   "type": "boolean",
@@ -743,11 +817,15 @@
               "properties": {
                 "habitId": {
                   "type": "string",
-                  "example": "64a7b8c9d1234567890abcde"
+                  "example": "671b123456789abcdef12345"
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "671b123456789abcdef67890"
                 },
                 "completedDate": {
                   "type": "string",
-                  "example": "2024-01-15"
+                  "example": "2024-10-15T08:00:00.000Z"
                 },
                 "completionCount": {
                   "type": "number",
@@ -861,7 +939,7 @@
                 },
                 "notes": {
                   "type": "string",
-                  "example": "Updated notes"
+                  "example": "Updated notes - did extra reps today!"
                 },
                 "mood": {
                   "type": "string",
@@ -1029,6 +1107,23 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/auth/debug-callback": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

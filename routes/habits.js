@@ -9,7 +9,6 @@ const {
 } = require("../controllers/habitController");
 const { requireAuth } = require("../middleware/auth");
 
-
 /**
  * @swagger
  * components:
@@ -183,11 +182,13 @@ router.post("/", requireAuth, (req, res) => {
       description: 'Habit information',
       required: true,
       schema: {
+        userId: '671b123456789abcdef12345',
         name: 'Daily Exercise',
         description: 'Do 30 minutes of exercise daily',
         frequency: 'daily',
         targetCount: 1,
-        category: 'health'
+        category: 'health',
+        isActive: true
       }
     }
   */
@@ -260,6 +261,8 @@ router.put("/:id", requireAuth, (req, res) => {
         name: 'Updated habit name',
         description: 'Updated description',
         frequency: 'weekly',
+        targetCount: 3,
+        category: 'updated-category',
         isActive: false
       }
     }
