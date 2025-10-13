@@ -15,11 +15,11 @@ const getAllHabitLogs = async (req, res) => {
     }
 
     const { habitId, startDate, endDate, limit = 30 } = req.query;
-    let query = { userId };
+    let query = { userId: new mongoose.Types.ObjectId(userId) };
 
     // Filter by habit if specified
     if (habitId) {
-      query.habitId = habitId;
+      query.habitId = new mongoose.Types.ObjectId(habitId);
     }
 
     // Filter by date range if specified
