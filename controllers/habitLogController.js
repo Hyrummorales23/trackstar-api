@@ -1,5 +1,6 @@
 const HabitLog = require("../models/HabitLog");
 const Habit = require("../models/Habit");
+const mongoose = require("mongoose");
 
 // Get all habit logs for current user
 const getAllHabitLogs = async (req, res) => {
@@ -106,7 +107,10 @@ const createHabitLog = async (req, res) => {
     }
 
     // Verify habit exists and belongs to user
-    const habit = await Habit.findOne({ _id: habitId, userId });
+    const habit = await Habit.findOne({
+      _id: new mongoose.Types.ObjectId(habitId),
+      userId: new mongoose.Types.ObjectId(userId),
+    });
     if (!habit) {
       return res.status(404).json({
         success: false,
@@ -191,7 +195,7 @@ const updateHabitLog = async (req, res) => {
       {
         new: true,
         runValidators: true,
-      },
+      }
     ).populate("habitId", "name description category");
 
     if (!habitLog) {
@@ -355,7 +359,7 @@ function calculateLongestStreak(logs) {
     const currentDate = new Date(logs[i].completedDate);
 
     const daysDiff = Math.floor(
-      (currentDate - prevDate) / (1000 * 60 * 60 * 24),
+      (currentDate - prevDate) / (1000 * 60 * 60 * 24)
     );
 
     if (daysDiff === 1) {
