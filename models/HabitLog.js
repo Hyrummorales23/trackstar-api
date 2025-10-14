@@ -125,4 +125,4 @@ habitLogSchema.statics.getUserLogsInRange = function (
   }).sort({ completedDate: -1 });
 };
 
-module.exports = mongoose.model("HabitLog", habitLogSchema);
+module.exports = mongoose.model("HabitLog", habitLogSchema, "habitlogs");

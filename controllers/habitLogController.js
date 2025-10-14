@@ -2,7 +2,7 @@ const HabitLog = require("../models/HabitLog");
 const Habit = require("../models/Habit");
 const mongoose = require("mongoose"); // Fixed ObjectId conversion issue - v2
 
-// Get all habit logs for current user
+// Get all habit logs for current user - UPDATED v3
 const getAllHabitLogs = async (req, res) => {
   try {
     const userId = req.user?.id || req.headers["x-user-id"];
