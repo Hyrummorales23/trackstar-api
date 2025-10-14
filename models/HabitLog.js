@@ -65,7 +65,7 @@ habitLogSchema.index(
   {
     unique: true,
     name: "unique_habit_user_date",
-  },
+  }
 );
 
 // Index for querying user's habit logs
@@ -114,7 +114,7 @@ habitLogSchema.statics.getHabitLogs = function (habitId, userId, limit = 30) {
 habitLogSchema.statics.getUserLogsInRange = function (
   userId,
   startDate,
-  endDate,
+  endDate
 ) {
   return this.find({
     userId,
