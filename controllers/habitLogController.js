@@ -5,7 +5,7 @@ const mongoose = require("mongoose"); // Fixed ObjectId conversion issue - v2
 // Get all habit logs for current user
 const getAllHabitLogs = async (req, res) => {
   try {
-    const userId = req.user?.id || req.headers["x-user-id"];
+    const userId = req.headers["x-user-id"] || req.user?.id;
 
     if (!userId) {
       return res.status(401).json({
@@ -50,7 +50,7 @@ const getAllHabitLogs = async (req, res) => {
 // Get single habit log by ID
 const getHabitLogById = async (req, res) => {
   try {
-    const userId = req.user?.id || req.headers["x-user-id"];
+    const userId = req.headers["x-user-id"] || req.user?.id;
 
     if (!userId) {
       return res.status(401).json({
@@ -86,7 +86,7 @@ const getHabitLogById = async (req, res) => {
 // Create new habit log (log a habit completion)
 const createHabitLog = async (req, res) => {
   try {
-    const userId = req.user?.id || req.headers["x-user-id"];
+    const userId = req.headers["x-user-id"] || req.user?.id;
 
     if (!userId) {
       return res.status(401).json({
@@ -164,7 +164,7 @@ const createHabitLog = async (req, res) => {
 // Update habit log
 const updateHabitLog = async (req, res) => {
   try {
-    const userId = req.user?.id || req.headers["x-user-id"];
+    const userId = req.headers["x-user-id"] || req.user?.id;
 
     if (!userId) {
       return res.status(401).json({
@@ -228,7 +228,7 @@ const updateHabitLog = async (req, res) => {
 // Delete habit log
 const deleteHabitLog = async (req, res) => {
   try {
-    const userId = req.user?.id || req.headers["x-user-id"];
+    const userId = req.headers["x-user-id"] || req.user?.id;
 
     if (!userId) {
       return res.status(401).json({
@@ -264,7 +264,7 @@ const deleteHabitLog = async (req, res) => {
 // Get habit statistics (bonus feature)
 const getHabitStats = async (req, res) => {
   try {
-    const userId = req.user?.id || req.headers["x-user-id"];
+    const userId = req.headers["x-user-id"] || req.user?.id;
 
     if (!userId) {
       return res.status(401).json({
